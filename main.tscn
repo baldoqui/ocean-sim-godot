@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://dmtw8v24rflaa"]
+
+[ext_resource type="PackedScene" uid="uid://kvoe127qy454" path="res://ocean/wave_mesh.tscn" id="1_qspyf"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.447759, -0.158341, 0.880023, 0, 0.984196, 0.177085, -0.894154, -0.0792914, 0.440683, -17, 0, 0)
+shadow_enabled = true
+directional_shadow_max_distance = 1.0
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866026, 0.5, 0, -0.5, 0.866026, 0, 40, 100)
+visible = false
+
+[node name="wave" type="Node3D" parent="."]
+
+[node name="wave_mesh" parent="wave" instance=ExtResource("1_qspyf")]
