@@ -1,39 +1,66 @@
 shader_type spatial;
 
-uniform vec4 water_color;
+uniform vec3 albedo : source_color; //vec3(0.0, 0.1, 0.28)
+uniform float metalic : hint_range(0.0, 1.0)=0;
+uniform float roughtness : hint_range(0.0, 1.0)=0.02;
 
-float sinWave(vec2 pos, vec2 direction, float waveLength, float speed, float height_scale) {
-    float w = 2.0 * PI / waveLength;
-    return height_scale * sin(dot(direction, pos) * w + (TIME * speed));
+uniform int wave_count = 20;
+uniform float init_wave_amplitude = 1.0;
+uniform float init_wave_frequence = 1.0;
+uniform float wave_frequence_increase = 1.0;
+uniform float amplitude_decay = 0.82;
+uniform float correct_height = 10;
+uniform float wave_speed =1;
+
+float rand(float n) {
+    return fract(sin(n) * 43758.5453123);
 }
 
-vec3 normalWave(vec2 pos, vec2 direction, float waveLength, float speed, float height_scale) {
-    float w = 2.0 * PI / waveLength;
-
-    float dx = w * dot(direction, vec2(1,0)) * height_scale*cos(dot(direction,pos) * w + (TIME * speed));
-	float dy = w * dot(direction, vec2(0,1)) * height_scale*cos(dot(direction,pos) * w + (TIME * speed));
-
-    return vec3(-dx,1,-dy);
+vec2 getWaveDirection(int index, int totalWaves) {
+    float angle = rand(float(index)) * 2.0 * PI;
+    return vec2(cos(angle), sin(angle));
 }
 
-vec4 createWave(vec2 pos, vec2 direction, float waveLength, float speed, float height_scale){
-	float yval = sinWave(pos, direction, waveLength, speed, height_scale);
-	vec3 normal = normalWave(pos, direction, waveLength, speed, height_scale);
-	return vec4(normal.x, normal.y, normal.z, yval);
+
+float sinWave(vec2 pos, vec2 direction, float w, float speed, float amplitude) {
+    return exp(amplitude * sin(dot(direction, pos) * w + (TIME * speed)) - 1.0);
+}
+
+vec3 normalWave(vec2 pos, vec2 direction, float w, float speed, float amplitude) {
+    float dx = w*dot(direction, vec2(1,0))*amplitude*cos(dot(direction,pos)*w+(TIME * speed))*exp(amplitude * sin(dot(direction, pos) * w + (TIME * speed))-1.0);   //* amplitude*cos(dot(direction,pos) * w + (TIME * speed));
+	float dy = w*dot(direction, vec2(0,1))*amplitude*cos(dot(direction,pos)*w+(TIME * speed))*exp(amplitude * sin(dot(direction, pos) * w + (TIME * speed))-1.0);
+
+    return vec3(-dx, 1, -dy);
+}
+
+vec4 createWave(vec2 pos, vec2 direction, float w, float speed, float amplitude) {
+    float yval = sinWave(pos, direction, w, speed, amplitude);
+    vec3 normal = normalWave(pos, direction, w, speed, amplitude);
+    return vec4(normal.x, normal.y, normal.z, yval);
 }
 
 void vertex() {
-	vec4 res;
-	res = createWave(vec2(VERTEX.x, VERTEX.z), vec2(1, 1), 0.5, 0.7, 0.05);
-	res += createWave(vec2(VERTEX.x, VERTEX.z), vec2(-1, -1), 1, 0.6, 0.025);
-	res += createWave(vec2(VERTEX.x, VERTEX.z), vec2(-1, 1), 1, 1, 0.05);
-	res += createWave(vec2(VERTEX.x, VERTEX.z), vec2(1, -1), 0.8, 0.5, 0.025);
-	
+    vec4 res = vec4(0.0);
+    float amplitude = init_wave_amplitude;
+	float w = init_wave_frequence;
+
+    for (int i = 0; i < wave_count; i++) {
+        vec2 direction = getWaveDirection(i, wave_count); // é quase aleatório
+        res += createWave(vec2(VERTEX.x, VERTEX.z), direction, w, wave_speed, amplitude);
+        amplitude *= amplitude_decay;
+		w *= wave_frequence_increase;
+
+	}
+
+	res.a -= correct_height;
+
     VERTEX.y = res.a;
-	NORMAL = vec3(res.x, res.y, res.z);
+    NORMAL = res.xyz;
 }
 
 void fragment() {
-	// Definir a cor do material com base na intensidade da luz
-    ALBEDO = water_color.rgb;
+    ALBEDO = albedo.rgb;
+	//METALLIC = metalic;
+	//ROUGHNESS = roughtness;
+	//NORMAL_MAP = NORMAL;
 }
