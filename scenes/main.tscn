@@ -1,0 +1,54 @@
+[gd_scene load_steps=9 format=3 uid="uid://dmtw8v24rflaa"]
+
+[ext_resource type="PackedScene" uid="uid://kvoe127qy454" path="res://scenes/wave_mesh.tscn" id="1_gl5lv"]
+[ext_resource type="Texture2D" uid="uid://dnnnfy2m0prht" path="res://Epic_BlueSunset_EquiRect_flat.png" id="3_2ojl5"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_6p1o5"]
+panorama = ExtResource("3_2ojl5")
+
+[sub_resource type="Sky" id="Sky_xcivy"]
+sky_material = SubResource("PanoramaSkyMaterial_6p1o5")
+
+[sub_resource type="Environment" id="Environment_rrbiw"]
+background_mode = 2
+sky = SubResource("Sky_xcivy")
+fog_light_energy = 1.5
+fog_sun_scatter = 0.58
+fog_density = 0.001
+fog_aerial_perspective = 0.3
+fog_sky_affect = 0.058
+volumetric_fog_density = 0.005
+volumetric_fog_length = 524.03
+volumetric_fog_sky_affect = 0.03
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_d8156"]
+
+[sub_resource type="Compositor" id="Compositor_apkea"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_iqx6b"]
+size = Vector3(2, 2, 2)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.999028, -0.0418737, 0.0137861, 0.0437302, -0.901713, 0.430119, -0.00557958, 0.430304, 0.902667, -17, 0, 0)
+shadow_enabled = true
+directional_shadow_max_distance = 1.0
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-0.642788, 0.220131, -0.733735, 0, 0.957823, 0.287361, 0.766044, 0.184712, -0.615676, -447.328, 26.125, -118.34)
+
+[node name="wave" type="Node3D" parent="."]
+
+[node name="wave_mesh" parent="wave" instance=ExtResource("1_gl5lv")]
+transform = Transform3D(49.9896, -0.00094752, 0.0360029, 0.0577986, 0.819823, -0.0315585, -0.0359546, 0.000518075, 50.0057, 0.0143089, 0.61466, 0.0518557)
+material_override = null
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_rrbiw")
+camera_attributes = SubResource("CameraAttributesPractical_d8156")
+compositor = SubResource("Compositor_apkea")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 4.59304, 0, 0, 0, 1, 0, -1.40362, 0)
+mesh = SubResource("BoxMesh_iqx6b")
