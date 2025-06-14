@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://kvoe127qy454"]
+
+[ext_resource type="Shader" path="res://shaders/ocean_shader.gdshader" id="1_0wmby"]
+[ext_resource type="Material" uid="uid://cx0km8k4ct3jo" path="res://shaders/wave_mesh.tres" id="2_y4yqa"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j0nt3"]
+render_priority = 0
+shader = ExtResource("1_0wmby")
+shader_parameter/albedo = Color(0, 0.321569, 0.431373, 1)
+shader_parameter/albedo2 = Color(0, 0.47451, 0.764706, 1)
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 0.02
+shader_parameter/wave_count = 20
+shader_parameter/init_amplitude = 1.0
+shader_parameter/init_frequence = 1.0
+shader_parameter/frequence_increase = 1.0
+shader_parameter/amplitude_decay = 0.82
+shader_parameter/wave_speed = 1.0
+shader_parameter/color_deep = Color(0.105882, 0.294118, 0.329412, 1)
+shader_parameter/color_shallow = Color(0, 0.552941, 0.65098, 1)
+shader_parameter/beers_law = 2.0
+shader_parameter/depth_offset = -0.75
+shader_parameter/edge_scale = 0.1
+shader_parameter/near = 1.0
+shader_parameter/far = 100.0
+shader_parameter/edge_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h1gw3"]
+albedo_color = Color(0.0313726, 0.145098, 0.223529, 1)
+metallic_specular = 1.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_lfu1t"]
+material = SubResource("StandardMaterial3D_h1gw3")
+size = Vector2(10, 10)
+subdivide_width = 250
+subdivide_depth = 250
+
+[node name="wave_mesh" type="MeshInstance3D"]
+transform = Transform3D(50, -0.00115576, 0.0359988, 0.0578106, 0.999999, -0.0315549, -0.0359621, 0.000631935, 50, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_j0nt3")
+mesh = SubResource("PlaneMesh_lfu1t")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("2_y4yqa")

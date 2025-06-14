@@ -1,0 +1,25 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cx0km8k4ct3jo"]
+
+[ext_resource type="Shader" path="res://shaders/ocean_shader.gdshader" id="1_d1itk"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_d1itk")
+shader_parameter/albedo = Color(0, 0.321569, 0.431373, 1)
+shader_parameter/albedo2 = Color(0, 0.47451, 0.764706, 1)
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 0.02
+shader_parameter/wave_count = 100
+shader_parameter/init_amplitude = 1.0
+shader_parameter/init_frequence = 4.0
+shader_parameter/frequence_increase = 1.12
+shader_parameter/amplitude_decay = 0.87
+shader_parameter/wave_speed = 8.0
+shader_parameter/color_deep = Color(0, 0, 1, 1)
+shader_parameter/color_shallow = Color(0, 0.976471, 1, 1)
+shader_parameter/beers_law = 2.0
+shader_parameter/depth_offset = -0.75
+shader_parameter/edge_scale = 0.1
+shader_parameter/near = 1.0
+shader_parameter/far = 100.0
+shader_parameter/edge_color = Color(1, 0, 1, 1)
