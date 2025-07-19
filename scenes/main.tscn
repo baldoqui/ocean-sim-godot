@@ -1,10 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://dmtw8v24rflaa"]
+[gd_scene load_steps=8 format=3 uid="uid://dmtw8v24rflaa"]
 
 [ext_resource type="PackedScene" uid="uid://kvoe127qy454" path="res://scenes/wave_mesh.tscn" id="1_gl5lv"]
-[ext_resource type="Texture2D" uid="uid://dnnnfy2m0prht" path="res://Epic_BlueSunset_EquiRect_flat.png" id="3_2ojl5"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_6p1o5"]
-panorama = ExtResource("3_2ojl5")
 
 [sub_resource type="Sky" id="Sky_xcivy"]
 sky_material = SubResource("PanoramaSkyMaterial_6p1o5")
@@ -36,7 +34,7 @@ shadow_enabled = true
 directional_shadow_max_distance = 1.0
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-0.642788, 0.220131, -0.733735, 0, 0.957823, 0.287361, 0.766044, 0.184712, -0.615676, -447.328, 26.125, -118.34)
+transform = Transform3D(0.967445, -0.0727259, 0.242408, 0, 0.957823, 0.287361, -0.253082, -0.278005, 0.92664, 5, 8, 10)
 
 [node name="wave" type="Node3D" parent="."]
 
