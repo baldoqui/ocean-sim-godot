@@ -1,5 +1,7 @@
 shader_type spatial;
 
+render_mode depth_draw_always;
+
 uniform sampler2D depth_texture : source_color, hint_depth_texture;
 uniform sampler2D screen_texture: hint_screen_texture, filter_linear_mipmap;
 
